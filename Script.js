@@ -1,22 +1,21 @@
-const linkInput = document.getElementById('link-input');
-const scanButton = document.getElementById('scan-button');
+const ipInput = document.getElementById('ip-input');
+const detectBtn = document.getElementById('detect-btn');
 const resultBox = document.getElementById('result-box');
 
-scanButton.addEventListener('click', () => {
-    const link = linkInput.value.trim();
-    if (!link) {
-        alert('Please enter a link');
-        return;
-    }
+detectBtn.addEventListener('click', async () => {
+  const ipAddress = ipInput.value.trim();
+  if (!ipAddress) {
+    resultBox.innerText = 'Please enter an IP address';
+    return;
+  }
 
-    // Simple heuristic to check if the link is likely to be an IP logger
-    const isIpLogger = link.includes('iplogger') || link.includes('logger');
+  try {
+    const response = await fetch(`https://api.ip-api.com/json/${ipAddress}?fields=status,message`);
+    const data = await response.json();
+    const isLogger = data.status === 'fail' && data.message.includes('IP logger');
 
-    if (isIpLogger) {
-        resultBox.innerHTML = 'IP Logger';
-        resultBox.className = 'ip-logger';
-    } else {
-        resultBox.innerHTML = 'Safe';
-        resultBox.className = 'safe';
-    }
+    resultBox.innerText = isLogger ? 'Logger' : 'Safe';
+  } catch (error) {
+    resultBox.innerText = 'Error: ' + error.message;
+  }
 });
