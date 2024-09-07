@@ -1,0 +1,20 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+#result-box {
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+.safe {
+    background-color: #c6efce;
+    color: #2e865f;
+}
+
+.ip-logger {
+    background-color: #f7cac9;
+    color: #e2755f;
+}
